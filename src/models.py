@@ -8,27 +8,11 @@ from eralchemy2 import render_er
 
 Base = declarative_base()
 
-class User(base):
-    __tablename__ = 'user'
-    user_name = Column(String(20), primary_key=True)
-    password = Column(String(15))
-    person_id = Column(Integer, ForeignKey('person.id'))
-    person = relationship(Person)
-    character_id = Column(Integer, ForeignKey('character.id'))
-    character = relationship(character)
-    planet_id = Column(Integer, ForeignKey('planet.id'))
-    planet = relationship(Planet)
+
     
 
-class Character(base):
-    __tablename__ = 'character'
-    character_id = Column(Integer, primary_key=True)
-    character_name = Column(String(15))
-    planet_id = Column(Integer, ForeignKey('planet.id'))
-    planet = relationship(Planet)
 
-
-class Planet(base):
+class Planet(Base):
     __tablename__ = 'planet'
     planet_id = Column(Integer, primary_key=True)
     planet_name = Column(String(15))
@@ -39,6 +23,13 @@ class Person(Base):
     # Notice that each column is also a normal Python instance attribute.
     person_id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
+
+class Character(Base):
+    __tablename__ = 'character'
+    character_id = Column(Integer, primary_key=True)
+    character_name = Column(String(15))
+    planet_id = Column(Integer, ForeignKey('planet.id'))
+    planet = relationship(Planet)
 
 class Address(Base):
     __tablename__ = 'address'
@@ -51,6 +42,16 @@ class Address(Base):
     person_id = Column(Integer, ForeignKey('person.id'))
     person = relationship(Person)
 
+class User(Base):
+    __tablename__ = 'user'
+    user_name = Column(String(20), primary_key=True)
+    password = Column(String(15))
+    person_id = Column(Integer, ForeignKey('person.id'))
+    person = relationship(Person)
+    character_id = Column(Integer, ForeignKey('character.id'))
+    character = relationship(Character)
+    planet_id = Column(Integer, ForeignKey('planet.id'))
+    planet = relationship(Planet)
     def to_dict(self):
         return {}
 
